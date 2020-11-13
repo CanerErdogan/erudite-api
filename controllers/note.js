@@ -1,8 +1,10 @@
+const db = require('../config/database');
+
 const createTimestamp = () => {
   return new Date().toISOString().slice(0, 19).replace('T', ' ');
 };
 
-const getNote = (db) => (req, res) => {
+const getNote = () => (req, res) => {
   const lastcall = createTimestamp();
   const sign = req.params.id ? '=' : '>';
   const id = req.params.id || 0;
@@ -18,7 +20,7 @@ const getNote = (db) => (req, res) => {
     }).catch(err => res.status(400).json('Unable to read notes.'));
 };
 
-const postNote = (db) => (req, res) => {
+const postNote = () => (req, res) => {
   const { title, content } = req.body;
   const lastcall = createTimestamp();
   db('notes').insert({ title, content, lastcall }, ['id'])
@@ -29,7 +31,7 @@ const postNote = (db) => (req, res) => {
     .catch(err => res.status(400).json("Failed to append note."));
 };
 
-const putNote = (db) => (req, res) => {
+const putNote = () => (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
   const lastcall = createTimestamp();
@@ -38,7 +40,7 @@ const putNote = (db) => (req, res) => {
     .catch(err => res.status(400).json("Failed to update note."));
 }
 
-const deleteNote = (db) => (req, res) => {
+const deleteNote = () => (req, res) => {
   const { id } = req.params;
   db('notes').where({ id }).del()
     .then(res.json("Note deleted successfully."))
