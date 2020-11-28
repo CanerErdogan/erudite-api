@@ -12,8 +12,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post('/search', (req, res) => { search.sendRequestToSearch(req, res) });
-// app.get('/background', (req, res) => { background.getBgImage(req, res) });
+app.route('/search')
+  .get(search.getSearchSiteList())
+  .post(search.sendRequestToSearch());
+
+app.get('/background', (req, res) => { background.getBgImage(req, res) });
+
 app.route('/note/:id?')
   .get(note.getNote())
   .post(note.postNote())

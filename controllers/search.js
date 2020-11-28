@@ -1,7 +1,15 @@
 const fetch = require('node-fetch');
 
+const searchSiteList =  [
+  {value: "duckduckgo", key: "duckduckgo", label: "DuckDuckGo"},
+  {value: "google", key: "google", label: "Google"},
+];
 
-const sendRequestToSearch = (req, res) => {
+const getSearchSiteList = () => (req, res) => {
+  res.json(searchSiteList);
+}
+
+const sendRequestToSearch = () => (req, res) => {
   const { site, query } = req.body;
   switch (site) {
     case "duckduckgo":
@@ -16,4 +24,4 @@ const sendRequestToSearch = (req, res) => {
   }
 }
 
-module.exports = { sendRequestToSearch };
+module.exports = { getSearchSiteList, sendRequestToSearch };
